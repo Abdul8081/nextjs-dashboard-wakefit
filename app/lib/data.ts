@@ -9,19 +9,19 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
-const sql = postgres(process.env.POSTGRES_URL!); // removed here ssl : 'require'
+const sql = postgres(process.env.POSTGRES_URL!);
 
 export async function fetchRevenue() {
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    console.log('Fetching revenue data...');
+    // console.log('Fetching revenue data...');
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const data = await sql<Revenue[]>`SELECT * FROM revenue`;
 
-    console.log('Data fetch completed after 2 seconds.');
+    // console.log('Data fetch completed after 3 seconds.');
 
     return data;
   } catch (error) {
@@ -144,7 +144,6 @@ export async function fetchInvoicesPages(query: string) {
 
 export async function fetchInvoiceById(id: string) {
   try {
-        
     const data = await sql<InvoiceForm[]>`
       SELECT
         invoices.id,
@@ -160,8 +159,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-
-    console.log(invoice); // Invoice is an empty array []
+    console.log(invoice);
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
